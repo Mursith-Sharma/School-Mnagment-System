@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Attendance Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .attendance-radio:checked + label {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .note-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #3b82f6;
+        }
+        @media (max-width: 768px) {
+            .responsive-table th, .responsive-table td {
+                padding: 0.5rem;
+                font-size: 0.875rem;
+            }
+            .responsive-table td:before {
+                content: attr(data-label);
+                font-weight: bold;
+                display: inline-block;
+                width: 120px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Page Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-blue-800">Teacher Attendance</h1>
+            <p class="text-gray-600 mt-2">Mark and manage teachers' daily attendance by grade and section</p>
+            
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mt-6 gap-4">
+                <div class="flex items-center">
+                    <label for="attendance-date" class="mr-2 font-medium">Date:</label>
+                    <input type="date" id="attendance-date" class="border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" value="">
+                </div>
+                
+                <div class="flex flex-wrap gap-2">
+                    <button id="mark-all-present" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md flex items-center">
+                        <i class="fas fa-check-circle mr-2"></i> Mark All Present
+                    </button>
+                    <button id="mark-all-absent" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md flex items-center">
+                        <i class="fas fa-times-circle mr-2"></i> Mark All Absent
+                    </button>
+                    <button id="mark-all-leave" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md flex items-center">
+                        <i class="fas fa-umbrella-beach mr-2"></i> Mark All Leave
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters Section -->
+        <div class="bg-white p-4 rounded-lg shadow-md mb-6">
+            <h2 class="text-lg font-semibold mb-4 text-gray-700">Filter Teachers</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                    <label for="grade-filter" class="block text-sm font-medium text-gray-700 mb-1">Grade</label>
+                    <select id="grade-filter" class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">All Grades</option>
+                        <option value="1">Grade 1</option>
+                        <option value="2">Grade 2</option>
+                        <option value="3">Grade 3</option>
+                        <option value="4">Grade 4</option>
+                        <option value="5">Grade 5</option>
+                        <option value="6">Grade 6</option>
+                        <option value="7">Grade 7</option>
+                        <option value="8">Grade 8</option>
+                        <option value="9">Grade 9</option>
+                        <option value="10">Grade 10</option>
+                        <option value="11">Grade 11</option>
+                        <option value="12">Grade 12</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="section-filter" class="block text-sm font-medium text-gray-700 mb-1">Section</label>
+                    <select id="section-filter" class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">All Sections</option>
+                        <option value="A">Section A</option>
+                        <option value="B">Section B</option>
+                        <option value="C">Section C</option>
+                        <option value="D">Section D</option>
+                        <option value="E">Section E</option>
+                        <option value="F">Section F</option>
+                        <option value="G">Section G</option>
+                        <option value="H">Section H</option>
+                        <option value="I">Section I</option>
+                        <option value="J">Section J</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="subject-filter" class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+                    <select id="subject-filter" class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">All Subjects</option>
+                        <option value="Maths">Maths</option>
+                        <option value="Science">Science</option>
+                        <option value="English">English</option>
+                        <option value="Tamil">Tamil</option>
+                        <option value="History">History</option>
+                        <option value="Geography">Geography</option>
+                        <option value="ICT">ICT</option>
+                        <option value="Art">Art</option>
+                        <option value="Music">Music</option>
+                        <option value="PE">Physical Education</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="search-teacher" class="block text-sm font-medium text-gray-700 mb-1">Search Teacher</label>
+                    <div class="relative">
+                        <input type="text" id="search-teacher" placeholder="Name, ID or phone" class="w-full border rounded-md px-3 py-2 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bulk Actions -->
+        <div class="bg-white p-4 rounded-lg shadow-md mb-6">
+            <h2 class="text-lg font-semibold mb-4 text-gray-700">Bulk Actions</h2>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <div class="flex-1">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Upload Attendance (Excel/CSV)</label>
+                    <div class="flex items-center">
+                        <input type="file" id="bulk-upload" accept=".xlsx,.xls,.csv" class="hidden">
+                        <label for="bulk-upload" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md cursor-pointer flex items-center">
+                            <i class="fas fa-file-upload mr-2"></i> Choose File
+                        </label>
+                        <span id="file-name" class="ml-2 text-sm text-gray-500">No file chosen</span>
+                    </div>
+                </div>
+                <div class="flex items-end">
+                    <button id="download-template" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-md flex items-center">
+                        <i class="fas fa-file-download mr-2"></i> Download Template
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Teachers Attendance Table -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full responsive-table">
+                    <thead class="bg-blue-600 text-white">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">S.No</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Teacher Name</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Teacher ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Grade</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Section</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Subject</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Note</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200" id="teachers-table-body">
+                        <!-- Sample data will be inserted here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Save & Reset Buttons -->
+        <div class="flex justify-end mt-6 gap-4">
+            <button id="reset-attendance" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-6 py-2 rounded-md flex items-center">
+                <i class="fas fa-undo mr-2"></i> Reset
+            </button>
+            <button id="save-attendance" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md flex items-center">
+                <i class="fas fa-save mr-2"></i> Save Attendance
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Set today's date as default
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('attendance-date').value = today;
+            
+            // Sample teacher data
+            const teachers = [
+                { id: 1, name: "Mr. Nuwan Perera", teacherId: "T001", grade: "5", section: "A", subject: "Science" },
+                { id: 2, name: "Ms. Fathima Riyaz", teacherId: "T002", grade: "5", section: "A", subject: "English" },
+                { id: 3, name: "Mrs. Kamala Devi", teacherId: "T003", grade: "6", section: "B", subject: "Maths" },
+                { id: 4, name: "Mr. Suresh Kumar", teacherId: "T004", grade: "7", section: "C", subject: "Science" },
+                { id: 5, name: "Ms. Anjali Fernando", teacherId: "T005", grade: "8", section: "D", subject: "History" },
+                { id: 6, name: "Mr. Rajendran", teacherId: "T006", grade: "9", section: "E", subject: "Tamil" },
+                { id: 7, name: "Mrs. Nirmala Silva", teacherId: "T007", grade: "10", section: "F", subject: "Geography" },
+                { id: 8, name: "Mr. Arjun Mehta", teacherId: "T008", grade: "11", section: "G", subject: "ICT" },
+                { id: 9, name: "Ms. Priya Anand", teacherId: "T009", grade: "12", section: "H", subject: "Art" },
+                { id: 10, name: "Mr. David Wilson", teacherId: "T010", grade: "5", section: "B", subject: "Music" }
+            ];
+            
+            // Render teacher table
+            renderTeacherTable(teachers);
+            
+            // Filter functionality
+            document.getElementById('grade-filter').addEventListener('change', filterTeachers);
+            document.getElementById('section-filter').addEventListener('change', filterTeachers);
+            document.getElementById('subject-filter').addEventListener('change', filterTeachers);
+            document.getElementById('search-teacher').addEventListener('input', filterTeachers);
+            
+            // Mark all buttons
+            document.getElementById('mark-all-present').addEventListener('click', () => markAll('present'));
+            document.getElementById('mark-all-absent').addEventListener('click', () => markAll('absent'));
+            document.getElementById('mark-all-leave').addEventListener('click', () => markAll('leave'));
+            
+            // Bulk upload
+            document.getElementById('bulk-upload').addEventListener('change', function(e) {
+                const fileName = e.target.files[0] ? e.target.files[0].name : 'No file chosen';
+                document.getElementById('file-name').textContent = fileName;
+            });
+            
+            // Download template
+            document.getElementById('download-template').addEventListener('click', function() {
+                alert('Template download would start here in a real implementation');
+            });
+            
+            // Save and reset buttons
+            document.getElementById('save-attendance').addEventListener('click', function() {
+                const date = document.getElementById('attendance-date').value;
+                const attendanceData = [];
+                
+                document.querySelectorAll('#teachers-table-body tr').forEach(row => {
+                    const teacherId = row.querySelector('.teacher-id').textContent;
+                    const status = row.querySelector('input[name="attendance-' + teacherId + '"]:checked')?.value || 'absent';
+                    const note = row.querySelector('.note-input').value;
+                    
+                    attendanceData.push({
+                        teacherId: teacherId,
+                        status: status,
+                        note: note
+                    });
+                });
+                
+                // In a real app, you would send this data to the server
+                console.log('Saving attendance for date:', date);
+                console.log('Attendance data:', attendanceData);
+                alert('Attendance data saved successfully!');
+            });
+            
+            document.getElementById('reset-attendance').addEventListener('click', function() {
+                document.querySelectorAll('#teachers-table-body input[type="radio"]').forEach(radio => {
+                    radio.checked = false;
+                });
+                document.querySelectorAll('#teachers-table-body .note-input').forEach(input => {
+                    input.value = '';
+                });
+            });
+        });
+        
+        function renderTeacherTable(teachers) {
+            const tableBody = document.getElementById('teachers-table-body');
+            tableBody.innerHTML = '';
+            
+            teachers.forEach((teacher, index) => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50';
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap" data-label="S.No">${index + 1}</td>
+                    <td class="px-6 py-4 whitespace-nowrap" data-label="Teacher Name">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                <span class="text-blue-600 font-medium">${teacher.name.charAt(0)}</span>
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">${teacher.name}</div>
+                                <div class="text-sm text-gray-500">${teacher.phone || 'N/A'}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap teacher-id" data-label="Teacher ID">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">${teacher.teacherId}</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap" data-label="Grade">Grade ${teacher.grade}</td>
+                    <td class="px-6 py-4 whitespace-nowrap" data-label="Section">Section ${teacher.section}</td>
+                    <td class="px-6 py-4 whitespace-nowrap" data-label="Subject">${teacher.subject}</td>
+                    <td class="px-6 py-4 whitespace-nowrap" data-label="Status">
+                        <div class="flex flex-wrap gap-2">
+                            <div class="inline-flex">
+                                <input type="radio" id="present-${teacher.teacherId}" name="attendance-${teacher.teacherId}" value="present" class="attendance-radio hidden">
+                                <label for="present-${teacher.teacherId}" class="px-3 py-1 rounded-md border border-green-500 text-green-500 cursor-pointer hover:bg-green-50">Present</label>
+                            </div>
+                            <div class="inline-flex">
+                                <input type="radio" id="absent-${teacher.teacherId}" name="attendance-${teacher.teacherId}" value="absent" class="attendance-radio hidden">
+                                <label for="absent-${teacher.teacherId}" class="px-3 py-1 rounded-md border border-red-500 text-red-500 cursor-pointer hover:bg-red-50">Absent</label>
+                            </div>
+                            <div class="inline-flex">
+                                <input type="radio" id="leave-${teacher.teacherId}" name="attendance-${teacher.teacherId}" value="leave" class="attendance-radio hidden">
+                                <label for="leave-${teacher.teacherId}" class="px-3 py-1 rounded-md border border-yellow-500 text-yellow-500 cursor-pointer hover:bg-yellow-50">Leave</label>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4" data-label="Note">
+                        <input type="text" class="note-input w-full border rounded-md px-2 py-1 text-sm" placeholder="Optional note">
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        function filterTeachers() {
+            const gradeFilter = document.getElementById('grade-filter').value;
+            const sectionFilter = document.getElementById('section-filter').value;
+            const subjectFilter = document.getElementById('subject-filter').value;
+            const searchQuery = document.getElementById('search-teacher').value.toLowerCase();
+            
+            // In a real app, you would fetch filtered data from the server
+            // For this demo, we'll just show all teachers and implement client-side filtering
+            const teachers = [
+                { id: 1, name: "Mr. Nuwan Perera", teacherId: "T001", grade: "5", section: "A", subject: "Science", phone: "0771234567" },
+                { id: 2, name: "Ms. Fathima Riyaz", teacherId: "T002", grade: "5", section: "A", subject: "English", phone: "0772345678" },
+                { id: 3, name: "Mrs. Kamala Devi", teacherId: "T003", grade: "6", section: "B", subject: "Maths", phone: "0773456789" },
+                { id: 4, name: "Mr. Suresh Kumar", teacherId: "T004", grade: "7", section: "C", subject: "Science", phone: "0774567890" },
+                { id: 5, name: "Ms. Anjali Fernando", teacherId: "T005", grade: "8", section: "D", subject: "History", phone: "0775678901" },
+                { id: 6, name: "Mr. Rajendran", teacherId: "T006", grade: "9", section: "E", subject: "Tamil", phone: "0776789012" },
+                { id: 7, name: "Mrs. Nirmala Silva", teacherId: "T007", grade: "10", section: "F", subject: "Geography", phone: "0777890123" },
+                { id: 8, name: "Mr. Arjun Mehta", teacherId: "T008", grade: "11", section: "G", subject: "ICT", phone: "0778901234" },
+                { id: 9, name: "Ms. Priya Anand", teacherId: "T009", grade: "12", section: "H", subject: "Art", phone: "0779012345" },
+                { id: 10, name: "Mr. David Wilson", teacherId: "T010", grade: "5", section: "B", subject: "Music", phone: "0770123456" }
+            ];
+            
+            const filteredTeachers = teachers.filter(teacher => {
+                const matchesGrade = !gradeFilter || teacher.grade === gradeFilter;
+                const matchesSection = !sectionFilter || teacher.section === sectionFilter;
+                const matchesSubject = !subjectFilter || teacher.subject === subjectFilter;
+                const matchesSearch = !searchQuery || 
+                    teacher.name.toLowerCase().includes(searchQuery) || 
+                    teacher.teacherId.toLowerCase().includes(searchQuery) || 
+                    (teacher.phone && teacher.phone.includes(searchQuery));
+                
+                return matchesGrade && matchesSection && matchesSubject && matchesSearch;
+            });
+            
+            renderTeacherTable(filteredTeachers);
+        }
+        
+        function markAll(status) {
+            document.querySelectorAll('#teachers-table-body tr').forEach(row => {
+                const teacherId = row.querySelector('.teacher-id').textContent;
+                const radio = row.querySelector(`input[value="${status}"][name^="attendance-"]`);
+                if (radio) {
+                    radio.checked = true;
+                    // Trigger the visual change for our custom radio buttons
+                    const label = row.querySelector(`label[for="${radio.id}"]`);
+                    if (label) {
+                        // Remove active state from sibling labels
+                        label.parentElement.parentElement.querySelectorAll('label').forEach(l => {
+                            l.classList.remove('bg-blue-500', 'text-white');
+                            l.classList.add('border', 'hover:bg-gray-50');
+                            if (l.htmlFor.includes('present')) {
+                                l.classList.add('border-green-500', 'text-green-500');
+                            } else if (l.htmlFor.includes('absent')) {
+                                l.classList.add('border-red-500', 'text-red-500');
+                            } else if (l.htmlFor.includes('leave')) {
+                                l.classList.add('border-yellow-500', 'text-yellow-500');
+                            }
+                        });
+                        
+                        // Add active state to clicked label
+                        label.classList.add('bg-blue-500', 'text-white');
+                        label.classList.remove('border', 'hover:bg-gray-50');
+                        if (label.htmlFor.includes('present')) {
+                            label.classList.remove('border-green-500', 'text-green-500');
+                        } else if (label.htmlFor.includes('absent')) {
+                            label.classList.remove('border-red-500', 'text-red-500');
+                        } else if (label.htmlFor.includes('leave')) {
+                            label.classList.remove('border-yellow-500', 'text-yellow-500');
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

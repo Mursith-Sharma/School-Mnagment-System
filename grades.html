@@ -1,0 +1,1119 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Grade Management | School System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+</head>
+<body class="bg-gray-50 min-h-screen">
+<header class="bg-white shadow-sm">
+    <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-4">
+            <button
+                onclick="window.history.back()"
+                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center"
+            >
+                <i class="fas fa-arrow-left mr-2"></i> Previous
+            </button>
+            <h1 class="text-xl font-bold text-gray-800">School Management System</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+            <a href="http://localhost:8000/home" class="text-gray-600 hover:text-blue-600"
+                >Admin Dashboard</a
+            >
+            <div
+                class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white"
+            >
+                <i class="fas fa-user"></i>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="container mx-auto px-4 py-8">
+    <div class="text-center mb-8">
+        <h2 class="text-2xl font-bold text-gray-800">Grades</h2>
+    </div>
+
+    <!-- Grade Filter -->
+    <div
+        class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4"
+    >
+        <form method="GET" action="http://localhost:8000/grades" class="w-full md:w-64">
+            <select
+                name="grade"
+                id="grade-filter"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            >
+                <option value="">All Grades</option>
+                                    <option
+                        value="1"
+                        
+                    >
+                        Grade 1
+                    </option>
+                                    <option
+                        value="2"
+                        
+                    >
+                        Grade 2
+                    </option>
+                                    <option
+                        value="3"
+                        
+                    >
+                        Grade 3
+                    </option>
+                                    <option
+                        value="4"
+                        
+                    >
+                        Grade 4
+                    </option>
+                                    <option
+                        value="5"
+                        
+                    >
+                        Grade 5
+                    </option>
+                                    <option
+                        value="6"
+                        
+                    >
+                        Grade 6
+                    </option>
+                                    <option
+                        value="7"
+                        
+                    >
+                        Grade 7
+                    </option>
+                                    <option
+                        value="8"
+                        
+                    >
+                        Grade 8
+                    </option>
+                                    <option
+                        value="9"
+                        
+                    >
+                        Grade 9
+                    </option>
+                                    <option
+                        value="10"
+                        
+                    >
+                        Grade 10
+                    </option>
+                                    <option
+                        value="11"
+                        
+                    >
+                        Grade 11
+                    </option>
+                                    <option
+                        value="12"
+                        
+                    >
+                        Grade 12
+                    </option>
+                            </select>
+        </form>
+        <button
+            onclick="window.location.href='http://localhost:8000/grades/create'"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center w-full md:w-auto"
+        >
+            <i class="fas fa-plus mr-2"></i> Add New Grade
+        </button>
+    </div>
+
+    <!-- Display selected grade heading if filtered -->
+    
+    <!-- Statistics -->
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="text-lg font-semibold mb-4 text-gray-800">Quick Stats</h3>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <p class="text-sm text-gray-600">Total Sections</p>
+                    <p class="text-2xl font-bold text-blue-600">30</p>
+                </div>
+                <div class="bg-green-50 p-4 rounded-lg">
+                    <p class="text-sm text-gray-600">Teachers Arranged</p>
+                    <p class="text-2xl font-bold text-green-600">14</p>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="text-lg font-semibold mb-4 text-gray-800">Recent Activity</h3>
+            <ul class="space-y-3">
+                                    <li class="flex items-start">
+                        <div
+                            class="bg-green-100 p-2 rounded-full mr-3"
+                        >
+                            <i
+                                class="fas fa-user-check text-green-600 text-sm"
+                            ></i>
+                        </div>
+                        <div>
+                            <p class="text-sm">Assigned Mr. John to Grade 6 - A</p>
+                            <p class="text-xs text-gray-500">10:45 AM</p>
+                        </div>
+                    </li>
+                                    <li class="flex items-start">
+                        <div
+                            class="bg-blue-100 p-2 rounded-full mr-3"
+                        >
+                            <i
+                                class="fas fa-plus-square text-blue-600 text-sm"
+                            ></i>
+                        </div>
+                        <div>
+                            <p class="text-sm">Added new section to Grade 8</p>
+                            <p class="text-xs text-gray-500">02:15 PM</p>
+                        </div>
+                    </li>
+                            </ul>
+        </div>
+    </div>
+
+    <!-- Teachers Table -->
+    <div class="bg-white rounded-lg shadow overflow-hidden mt-8">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                            Section
+                        </th>
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                            Class Teacher
+                        </th>
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                            Designation
+                        </th>
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    
+                    
+                                                                                                                                        <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap font-medium text-gray-900"
+                                    >
+                                        A
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>marsu</span>
+                                            </div>
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>marsu</span>
+                                            </div>
+                                                                            </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Vice Principal
+                                            </div>
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Head of Department (HOD)
+                                            </div>
+                                                                            </td>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap flex items-center space-x-4"
+                                    >
+                                        <button
+                                            class="text-blue-600 hover:text-blue-800 view-btn"
+                                            onclick="handleViewTimetable('Grade 1 - A')"
+                                            title="View Timetable"
+                                        >
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button
+                                            class="text-green-600 hover:text-green-800 edit-btn"
+                                            onclick="handleEditSection('1', 'A')"
+                                            title="Edit Section"
+                                        >
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                                                                            <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap font-medium text-gray-900"
+                                    >
+                                        F
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>marsu</span>
+                                            </div>
+                                                                            </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Vice Principal
+                                            </div>
+                                                                            </td>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap flex items-center space-x-4"
+                                    >
+                                        <button
+                                            class="text-blue-600 hover:text-blue-800 view-btn"
+                                            onclick="handleViewTimetable('Grade 1 - F')"
+                                            title="View Timetable"
+                                        >
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button
+                                            class="text-green-600 hover:text-green-800 edit-btn"
+                                            onclick="handleEditSection('1', 'F')"
+                                            title="Edit Section"
+                                        >
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                                                                                                                                                                            <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap font-medium text-gray-900"
+                                    >
+                                        A
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>marsh tech</span>
+                                            </div>
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>aasami</span>
+                                            </div>
+                                                                            </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Principal
+                                            </div>
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Co-Class Teacher
+                                            </div>
+                                                                            </td>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap flex items-center space-x-4"
+                                    >
+                                        <button
+                                            class="text-blue-600 hover:text-blue-800 view-btn"
+                                            onclick="handleViewTimetable('Grade 2 - A')"
+                                            title="View Timetable"
+                                        >
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button
+                                            class="text-green-600 hover:text-green-800 edit-btn"
+                                            onclick="handleEditSection('2', 'A')"
+                                            title="Edit Section"
+                                        >
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                                                                            <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap font-medium text-gray-900"
+                                    >
+                                        B
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>marsh tech</span>
+                                            </div>
+                                                                            </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Principal
+                                            </div>
+                                                                            </td>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap flex items-center space-x-4"
+                                    >
+                                        <button
+                                            class="text-blue-600 hover:text-blue-800 view-btn"
+                                            onclick="handleViewTimetable('Grade 2 - B')"
+                                            title="View Timetable"
+                                        >
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button
+                                            class="text-green-600 hover:text-green-800 edit-btn"
+                                            onclick="handleEditSection('2', 'B')"
+                                            title="Edit Section"
+                                        >
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                                                                            <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap font-medium text-gray-900"
+                                    >
+                                        E
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>marsu</span>
+                                            </div>
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>aasami</span>
+                                            </div>
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>aasu</span>
+                                            </div>
+                                                                            </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Vice Principal
+                                            </div>
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Co-Class Teacher
+                                            </div>
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Head of Department (HOD)
+                                            </div>
+                                                                            </td>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap flex items-center space-x-4"
+                                    >
+                                        <button
+                                            class="text-blue-600 hover:text-blue-800 view-btn"
+                                            onclick="handleViewTimetable('Grade 2 - E')"
+                                            title="View Timetable"
+                                        >
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button
+                                            class="text-green-600 hover:text-green-800 edit-btn"
+                                            onclick="handleEditSection('2', 'E')"
+                                            title="Edit Section"
+                                        >
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                                                                            <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap font-medium text-gray-900"
+                                    >
+                                        J
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>marsu</span>
+                                            </div>
+                                                                            </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Vice Principal
+                                            </div>
+                                                                            </td>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap flex items-center space-x-4"
+                                    >
+                                        <button
+                                            class="text-blue-600 hover:text-blue-800 view-btn"
+                                            onclick="handleViewTimetable('Grade 2 - J')"
+                                            title="View Timetable"
+                                        >
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button
+                                            class="text-green-600 hover:text-green-800 edit-btn"
+                                            onclick="handleEditSection('2', 'J')"
+                                            title="Edit Section"
+                                        >
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                                                                                                                                                                            <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap font-medium text-gray-900"
+                                    >
+                                        A
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>aasam</span>
+                                            </div>
+                                                                            </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Co-Class Teacher
+                                            </div>
+                                                                            </td>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap flex items-center space-x-4"
+                                    >
+                                        <button
+                                            class="text-blue-600 hover:text-blue-800 view-btn"
+                                            onclick="handleViewTimetable('Grade 3 - A')"
+                                            title="View Timetable"
+                                        >
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button
+                                            class="text-green-600 hover:text-green-800 edit-btn"
+                                            onclick="handleEditSection('3', 'A')"
+                                            title="Edit Section"
+                                        >
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                                                                            <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap font-medium text-gray-900"
+                                    >
+                                        E
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>gfhfghf</span>
+                                            </div>
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>aam</span>
+                                            </div>
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>Rahul Sharmasa</span>
+                                            </div>
+                                                                            </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Principal
+                                            </div>
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Co-Class Teacher
+                                            </div>
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Co-Class Teacher
+                                            </div>
+                                                                            </td>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap flex items-center space-x-4"
+                                    >
+                                        <button
+                                            class="text-blue-600 hover:text-blue-800 view-btn"
+                                            onclick="handleViewTimetable('Grade 3 - E')"
+                                            title="View Timetable"
+                                        >
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button
+                                            class="text-green-600 hover:text-green-800 edit-btn"
+                                            onclick="handleEditSection('3', 'E')"
+                                            title="Edit Section"
+                                        >
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                                                                                                                                                                            <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap font-medium text-gray-900"
+                                    >
+                                        A
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>aasu</span>
+                                            </div>
+                                                                            </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                N/A
+                                            </div>
+                                                                            </td>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap flex items-center space-x-4"
+                                    >
+                                        <button
+                                            class="text-blue-600 hover:text-blue-800 view-btn"
+                                            onclick="handleViewTimetable('Grade 4 - A')"
+                                            title="View Timetable"
+                                        >
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button
+                                            class="text-green-600 hover:text-green-800 edit-btn"
+                                            onclick="handleEditSection('4', 'A')"
+                                            title="Edit Section"
+                                        >
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                                                                                                                                                                            <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap font-medium text-gray-900"
+                                    >
+                                        A
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>aas</span>
+                                            </div>
+                                                                            </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Principal
+                                            </div>
+                                                                            </td>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap flex items-center space-x-4"
+                                    >
+                                        <button
+                                            class="text-blue-600 hover:text-blue-800 view-btn"
+                                            onclick="handleViewTimetable('Grade 5 - A')"
+                                            title="View Timetable"
+                                        >
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button
+                                            class="text-green-600 hover:text-green-800 edit-btn"
+                                            onclick="handleEditSection('5', 'A')"
+                                            title="Edit Section"
+                                        >
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                                                                            <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap font-medium text-gray-900"
+                                    >
+                                        E
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>aas</span>
+                                            </div>
+                                                                            </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Principal
+                                            </div>
+                                                                            </td>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap flex items-center space-x-4"
+                                    >
+                                        <button
+                                            class="text-blue-600 hover:text-blue-800 view-btn"
+                                            onclick="handleViewTimetable('Grade 5 - E')"
+                                            title="View Timetable"
+                                        >
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button
+                                            class="text-green-600 hover:text-green-800 edit-btn"
+                                            onclick="handleEditSection('5', 'E')"
+                                            title="Edit Section"
+                                        >
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                                                                                                                                                                            <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap font-medium text-gray-900"
+                                    >
+                                        E
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>Rahul Sharma</span>
+                                            </div>
+                                                                            </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Senior Teacher
+                                            </div>
+                                                                            </td>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap flex items-center space-x-4"
+                                    >
+                                        <button
+                                            class="text-blue-600 hover:text-blue-800 view-btn"
+                                            onclick="handleViewTimetable('Grade 6 - E')"
+                                            title="View Timetable"
+                                        >
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button
+                                            class="text-green-600 hover:text-green-800 edit-btn"
+                                            onclick="handleEditSection('6', 'E')"
+                                            title="Edit Section"
+                                        >
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                                                                            <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap font-medium text-gray-900"
+                                    >
+                                        I
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>Rahul Sharma</span>
+                                            </div>
+                                                                            </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Senior Teacher
+                                            </div>
+                                                                            </td>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap flex items-center space-x-4"
+                                    >
+                                        <button
+                                            class="text-blue-600 hover:text-blue-800 view-btn"
+                                            onclick="handleViewTimetable('Grade 6 - I')"
+                                            title="View Timetable"
+                                        >
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button
+                                            class="text-green-600 hover:text-green-800 edit-btn"
+                                            onclick="handleEditSection('6', 'I')"
+                                            title="Edit Section"
+                                        >
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                                                                                                                                                                            <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap font-medium text-gray-900"
+                                    >
+                                        A
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>vaadu</span>
+                                            </div>
+                                                                            </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Vice Principal
+                                            </div>
+                                                                            </td>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap flex items-center space-x-4"
+                                    >
+                                        <button
+                                            class="text-blue-600 hover:text-blue-800 view-btn"
+                                            onclick="handleViewTimetable('Grade 7 - A')"
+                                            title="View Timetable"
+                                        >
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button
+                                            class="text-green-600 hover:text-green-800 edit-btn"
+                                            onclick="handleEditSection('7', 'A')"
+                                            title="Edit Section"
+                                        >
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                                                                                                                                                                            <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap font-medium text-gray-900"
+                                    >
+                                        C
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>marsh tech</span>
+                                            </div>
+                                                                            </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Principal
+                                            </div>
+                                                                            </td>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap flex items-center space-x-4"
+                                    >
+                                        <button
+                                            class="text-blue-600 hover:text-blue-800 view-btn"
+                                            onclick="handleViewTimetable('Grade 11 - C')"
+                                            title="View Timetable"
+                                        >
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button
+                                            class="text-green-600 hover:text-green-800 edit-btn"
+                                            onclick="handleEditSection('11', 'C')"
+                                            title="Edit Section"
+                                        >
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                                                                            <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap font-medium text-gray-900"
+                                    >
+                                        D
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>marsh tech</span>
+                                            </div>
+                                                                            </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Principal
+                                            </div>
+                                                                            </td>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap flex items-center space-x-4"
+                                    >
+                                        <button
+                                            class="text-blue-600 hover:text-blue-800 view-btn"
+                                            onclick="handleViewTimetable('Grade 11 - D')"
+                                            title="View Timetable"
+                                        >
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button
+                                            class="text-green-600 hover:text-green-800 edit-btn"
+                                            onclick="handleEditSection('11', 'D')"
+                                            title="Edit Section"
+                                        >
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                                                                            <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap font-medium text-gray-900"
+                                    >
+                                        E
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>aam</span>
+                                            </div>
+                                                                            </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Co-Class Teacher
+                                            </div>
+                                                                            </td>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap flex items-center space-x-4"
+                                    >
+                                        <button
+                                            class="text-blue-600 hover:text-blue-800 view-btn"
+                                            onclick="handleViewTimetable('Grade 11 - E')"
+                                            title="View Timetable"
+                                        >
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button
+                                            class="text-green-600 hover:text-green-800 edit-btn"
+                                            onclick="handleEditSection('11', 'E')"
+                                            title="Edit Section"
+                                        >
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                                                                            <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap font-medium text-gray-900"
+                                    >
+                                        F
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>aam</span>
+                                            </div>
+                                                                            </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Co-Class Teacher
+                                            </div>
+                                                                            </td>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap flex items-center space-x-4"
+                                    >
+                                        <button
+                                            class="text-blue-600 hover:text-blue-800 view-btn"
+                                            onclick="handleViewTimetable('Grade 11 - F')"
+                                            title="View Timetable"
+                                        >
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button
+                                            class="text-green-600 hover:text-green-800 edit-btn"
+                                            onclick="handleEditSection('11', 'F')"
+                                            title="Edit Section"
+                                        >
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                                                                            <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap font-medium text-gray-900"
+                                    >
+                                        G
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>aasam</span>
+                                            </div>
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>aam</span>
+                                            </div>
+                                                                            </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Co-Class Teacher
+                                            </div>
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Co-Class Teacher
+                                            </div>
+                                                                            </td>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap flex items-center space-x-4"
+                                    >
+                                        <button
+                                            class="text-blue-600 hover:text-blue-800 view-btn"
+                                            onclick="handleViewTimetable('Grade 11 - G')"
+                                            title="View Timetable"
+                                        >
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button
+                                            class="text-green-600 hover:text-green-800 edit-btn"
+                                            onclick="handleEditSection('11', 'G')"
+                                            title="Edit Section"
+                                        >
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                                                                            <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap font-medium text-gray-900"
+                                    >
+                                        H
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>aasam</span>
+                                            </div>
+                                                                            </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Co-Class Teacher
+                                            </div>
+                                                                            </td>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap flex items-center space-x-4"
+                                    >
+                                        <button
+                                            class="text-blue-600 hover:text-blue-800 view-btn"
+                                            onclick="handleViewTimetable('Grade 11 - H')"
+                                            title="View Timetable"
+                                        >
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button
+                                            class="text-green-600 hover:text-green-800 edit-btn"
+                                            onclick="handleEditSection('11', 'H')"
+                                            title="Edit Section"
+                                        >
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                                                                                                                                                                            <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap font-medium text-gray-900"
+                                    >
+                                        A
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>Rahul Sharma</span>
+                                            </div>
+                                                                            </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Senior Teacher
+                                            </div>
+                                                                            </td>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap flex items-center space-x-4"
+                                    >
+                                        <button
+                                            class="text-blue-600 hover:text-blue-800 view-btn"
+                                            onclick="handleViewTimetable('Grade 12 - A')"
+                                            title="View Timetable"
+                                        >
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button
+                                            class="text-green-600 hover:text-green-800 edit-btn"
+                                            onclick="handleEditSection('12', 'A')"
+                                            title="Edit Section"
+                                        >
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                                                                            <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap font-medium text-gray-900"
+                                    >
+                                        B
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>Rahul Sharma</span>
+                                            </div>
+                                                                            </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Senior Teacher
+                                            </div>
+                                                                            </td>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap flex items-center space-x-4"
+                                    >
+                                        <button
+                                            class="text-blue-600 hover:text-blue-800 view-btn"
+                                            onclick="handleViewTimetable('Grade 12 - B')"
+                                            title="View Timetable"
+                                        >
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button
+                                            class="text-green-600 hover:text-green-800 edit-btn"
+                                            onclick="handleEditSection('12', 'B')"
+                                            title="Edit Section"
+                                        >
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                                                                            <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap font-medium text-gray-900"
+                                    >
+                                        J
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                <!-- Removed profile image -->
+                                                <span>bala</span>
+                                            </div>
+                                                                            </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                                                                                    <div class="mb-2 last:mb-0">
+                                                Counselor
+                                            </div>
+                                                                            </td>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap flex items-center space-x-4"
+                                    >
+                                        <button
+                                            class="text-blue-600 hover:text-blue-800 view-btn"
+                                            onclick="handleViewTimetable('Grade 12 - J')"
+                                            title="View Timetable"
+                                        >
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button
+                                            class="text-green-600 hover:text-green-800 edit-btn"
+                                            onclick="handleEditSection('12', 'J')"
+                                            title="Edit Section"
+                                        >
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                                                        
+                                    </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<script>
+    document
+        .getElementById('grade-filter')
+        .addEventListener('change', function () {
+            this.form.submit();
+        });
+
+    function handleEditSection(grade, section) {
+        // Redirect to your existing teachers_view route
+        window.location.href = "http://localhost:8000/teachers_view" + '?grade=' + grade + '&section=' + section;
+    }
+
+    function handleViewTimetable(section) {
+        alert(`Viewing timetable for: ${section}`);
+    }
+</script>
+</body>
+</html>

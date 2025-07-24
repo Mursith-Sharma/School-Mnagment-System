@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Class Timetable</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .bg-math { background-color: #e0f2fe; border-left-color: #0284c7; }
+        .bg-science { background-color: #ecfdf5; border-left-color: #16a34a; }
+        .bg-english { background-color: #fef3c7; border-left-color: #ca8a04; }
+        .bg-history { background-color: #f3f4f6; border-left-color: #6b7280; }
+        .bg-art { background-color: #fce7f3; border-left-color: #be185d; }
+        .bg-physical { background-color: #ffedd5; border-left-color: #c2410c; }
+        .bg-break { background-color: #fee2e2; border-left-color: #dc2626; }
+
+        @media (max-width: 640px) {
+            .hidden-mobile { display: none; }
+            .mobile-label { font-size: 0.8rem; color: #6b7280; }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+<div class="container mx-auto p-4 sm:p-6">
+
+    <!-- Filters -->
+    <div class="bg-white p-4 rounded-lg shadow mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <!-- Grade Filter -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Grade</label>
+                <select class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    <option value="">All Grades</option>
+                    <option>Grade 1</option>
+                    <option>Grade 2</option>
+                    <option>Grade 3</option>
+                    <option>Grade 4</option>
+                    <option>Grade 5</option>
+                    <option>Grade 6</option>
+                    <option>Grade 7</option>
+                    <option>Grade 8</option>
+                    <option>Grade 9</option>
+                    <option>Grade 10</option>
+                    <option>Grade 11</option>
+                    <option>Grade 12</option>
+                </select>
+            </div>
+
+            <!-- Section Filter -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Section</label>
+                <select class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    <option value="">All Sections</option>
+                    <option>Section A</option>
+                    <option>Section B</option>
+                    <option>Section C</option>
+                    <option>Section D</option>
+                    <option>Section E</option>
+                    <option>Section F</option>
+                    <option>Section G</option>
+                    <option>Section H</option>
+                    <option>Section I</option>
+                    <option>Section J</option>
+                </select>
+            </div>
+
+            <!-- Teacher Filter -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Teacher</label>
+                <select class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    <option value="">All Teachers</option>
+                    <option>Mr. John</option>
+                    <option>Mrs. Smith</option>
+                    <option>Ms. Taylor</option>
+                    <option>Mr. Brown</option>
+                    <option>Mr. Wilson</option>
+                    <option>Ms. Davis</option>
+                    <option>Mr. Kumar</option>
+                    <option>Ms. Lee</option>
+                </select>
+            </div>
+
+            <!-- Subject Filter -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+                <select class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    <option value="">All Subjects</option>
+                    <option>Math</option>
+                    <option>Physics</option>
+                    <option>Chemistry</option>
+                    <option>Biology</option>
+                    <option>English</option>
+                    <option>History</option>
+                    <option>Geography</option>
+                    <option>Art</option>
+                    <option>Music</option>
+                    <option>Physical Education</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">Timetable</h1>
+
+    <!-- Responsive Note -->
+    <div class="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-md text-sm text-blue-800 hidden-mobile">
+        💡 <strong>Tip:</strong> On mobile, scroll horizontally to see all periods.
+    </div>
+
+    <!-- Timetable -->
+    <div class="bg-white shadow rounded-lg overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-24">Day/Period</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-28">1st<br><span class="mobile-label">(8:15-8:55)</span></th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-28">2nd<br><span class="mobile-label">(8:55-9:35)</span></th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-28">3rd<br><span class="mobile-label">(9:35-10:15)</span></th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-28">Break<br><span class="mobile-label">(10:15-10:25)</span></th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-28">4th<br><span class="mobile-label">(10:25-11:05)</span></th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-28">5th<br><span class="mobile-label">(11:05-11:45)</span></th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-28">6th<br><span class="mobile-label">(11:45-12:25)</span></th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-28">7th<br><span class="mobile-label">(12:25-1:05)</span></th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-28">8th<br><span class="mobile-label">(1:05-1:45)</span></th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-28">9th<br><span class="mobile-label">(1:45-2:15)</span></th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200 text-xs sm:text-sm">
+
+                    <!-- Monday -->
+                    <tr>
+                        <td class="px-4 py-3 whitespace-nowrap font-medium bg-gray-50">Monday</td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-math border-l-4 border-math"><div class="font-medium">Math</div><div class="text-xs">Mr. John</div><div class="text-xs text-gray-500">R101</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-science border-l-4 border-science"><div class="font-medium">Physics</div><div class="text-xs">Mrs. Smith</div><div class="text-xs text-gray-500">Lab A</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-english border-l-4 border-english"><div class="font-medium">English</div><div class="text-xs">Ms. Taylor</div><div class="text-xs text-gray-500">R202</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-break border-l-4 border-red-500 text-center"><div class="font-medium text-red-700">BREAK</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-science border-l-4 border-science"><div class="font-medium">Chemistry</div><div class="text-xs">Mr. Wilson</div><div class="text-xs text-gray-500">Lab B</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-history border-l-4 border-history"><div class="font-medium">History</div><div class="text-xs">Mr. Brown</div><div class="text-xs text-gray-500">R301</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-english border-l-4 border-english"><div class="font-medium">Literature</div><div class="text-xs">Ms. Taylor</div><div class="text-xs text-gray-500">R202</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-art border-l-4 border-art"><div class="font-medium">Art</div><div class="text-xs">Ms. Davis</div><div class="text-xs text-gray-500">Art Rm</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-physical border-l-4 border-physical"><div class="font-medium">PT</div><div class="text-xs">Mr. Kumar</div><div class="text-xs text-gray-500">Field</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-math border-l-4 border-math"><div class="font-medium">Math Lab</div><div class="text-xs">Mr. John</div><div class="text-xs text-gray-500">Lab C</div></div></td>
+                    </tr>
+
+                    <!-- Tuesday -->
+                    <tr>
+                        <td class="px-4 py-3 whitespace-nowrap font-medium bg-gray-50">Tuesday</td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-science border-l-4 border-science"><div class="font-medium">Biology</div><div class="text-xs">Mrs. Smith</div><div class="text-xs text-gray-500">Lab A</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-math border-l-4 border-math"><div class="font-medium">Algebra</div><div class="text-xs">Mr. John</div><div class="text-xs text-gray-500">R101</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-english border-l-4 border-english"><div class="font-medium">Grammar</div><div class="text-xs">Ms. Taylor</div><div class="text-xs text-gray-500">R202</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-break border-l-4 border-red-500 text-center"><div class="font-medium text-red-700">BREAK</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-history border-l-4 border-history"><div class="font-medium">Geography</div><div class="text-xs">Mr. Brown</div><div class="text-xs text-gray-500">R301</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-science border-l-4 border-science"><div class="font-medium">Practical</div><div class="text-xs">Mr. Wilson</div><div class="text-xs text-gray-500">Lab B</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-physical border-l-4 border-physical"><div class="font-medium">Yoga</div><div class="text-xs">Mr. Kumar</div><div class="text-xs text-gray-500">Yoga H</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-art border-l-4 border-art"><div class="font-medium">Music</div><div class="text-xs">Ms. Lee</div><div class="text-xs text-gray-500">Music Rm</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-math border-l-4 border-math"><div class="font-medium">Problem Solving</div><div class="text-xs">Mr. John</div><div class="text-xs text-gray-500">R101</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-english border-l-4 border-english"><div class="font-medium">Debate</div><div class="text-xs">Ms. Taylor</div><div class="text-xs text-gray-500">Auditorium</div></div></td>
+                    </tr>
+
+                    <!-- Wednesday -->
+                    <tr>
+                        <td class="px-4 py-3 whitespace-nowrap font-medium bg-gray-50">Wednesday</td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-math border-l-4 border-math"><div class="font-medium">Geometry</div><div class="text-xs">Mr. John</div><div class="text-xs text-gray-500">R101</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-science border-l-4 border-science"><div class="font-medium">Physics</div><div class="text-xs">Mrs. Smith</div><div class="text-xs text-gray-500">Lab A</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-english border-l-4 border-english"><div class="font-medium">Reading</div><div class="text-xs">Ms. Taylor</div><div class="text-xs text-gray-500">Library</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-break border-l-4 border-red-500 text-center"><div class="font-medium text-red-700">BREAK</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-history border-l-4 border-history"><div class="font-medium">Civics</div><div class="text-xs">Mr. Brown</div><div class="text-xs text-gray-500">R301</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-science border-l-4 border-science"><div class="font-medium">Chemistry</div><div class="text-xs">Mr. Wilson</div><div class="text-xs text-gray-500">Lab B</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-physical border-l-4 border-physical"><div class="font-medium">Sports</div><div class="text-xs">Mr. Kumar</div><div class="text-xs text-gray-500">Field</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-art border-l-4 border-art"><div class="font-medium">Drawing</div><div class="text-xs">Ms. Davis</div><div class="text-xs text-gray-500">Art Rm</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-math border-l-4 border-math"><div class="font-medium">Quiz</div><div class="text-xs">Mr. John</div><div class="text-xs text-gray-500">R101</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-english border-l-4 border-english"><div class="font-medium">Writing</div><div class="text-xs">Ms. Taylor</div><div class="text-xs text-gray-500">R202</div></div></td>
+                    </tr>
+
+                    <!-- Thursday -->
+                    <tr>
+                        <td class="px-4 py-3 whitespace-nowrap font-medium bg-gray-50">Thursday</td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-science border-l-4 border-science"><div class="font-medium">Biology</div><div class="text-xs">Mrs. Smith</div><div class="text-xs text-gray-500">Lab A</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-math border-l-4 border-math"><div class="font-medium">Trigonometry</div><div class="text-xs">Mr. John</div><div class="text-xs text-gray-500">R101</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-english border-l-4 border-english"><div class="font-medium">Speaking</div><div class="text-xs">Ms. Taylor</div><div class="text-xs text-gray-500">R202</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-break border-l-4 border-red-500 text-center"><div class="font-medium text-red-700">BREAK</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-history border-l-4 border-history"><div class="font-medium">History</div><div class="text-xs">Mr. Brown</div><div class="text-xs text-gray-500">R301</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-science border-l-4 border-science"><div class="font-medium">Experiment</div><div class="text-xs">Mr. Wilson</div><div class="text-xs text-gray-500">Lab B</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-physical border-l-4 border-physical"><div class="font-medium">Games</div><div class="text-xs">Mr. Kumar</div><div class="text-xs text-gray-500">Playground</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-art border-l-4 border-art"><div class="font-medium">Dance</div><div class="text-xs">Ms. Lee</div><div class="text-xs text-gray-500">Dance Rm</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-math border-l-4 border-math"><div class="font-medium">Assignment</div><div class="text-xs">Mr. John</div><div class="text-xs text-gray-500">R101</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-english border-l-4 border-english"><div class="font-medium">Presentation</div><div class="text-xs">Ms. Taylor</div><div class="text-xs text-gray-500">Auditorium</div></div></td>
+                    </tr>
+
+                    <!-- Friday -->
+                    <tr>
+                        <td class="px-4 py-3 whitespace-nowrap font-medium bg-gray-50">Friday</td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-math border-l-4 border-math"><div class="font-medium">Revision</div><div class="text-xs">Mr. John</div><div class="text-xs text-gray-500">R101</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-science border-l-4 border-science"><div class="font-medium">Review</div><div class="text-xs">Mrs. Smith</div><div class="text-xs text-gray-500">Lab A</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-english border-l-4 border-english"><div class="font-medium">Creative Writing</div><div class="text-xs">Ms. Taylor</div><div class="text-xs text-gray-500">R202</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-break border-l-4 border-red-500 text-center"><div class="font-medium text-red-700">BREAK</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-history border-l-4 border-history"><div class="font-medium">Quiz</div><div class="text-xs">Mr. Brown</div><div class="text-xs text-gray-500">R301</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-science border-l-4 border-science"><div class="font-medium">Project</div><div class="text-xs">Mr. Wilson</div><div class="text-xs text-gray-500">Lab B</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-physical border-l-4 border-physical"><div class="font-medium">Fitness</div><div class="text-xs">Mr. Kumar</div><div class="text-xs text-gray-500">Gym</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-art border-l-4 border-art"><div class="font-medium">Craft</div><div class="text-xs">Ms. Davis</div><div class="text-xs text-gray-500">Art Rm</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-math border-l-4 border-math"><div class="font-medium">Test</div><div class="text-xs">Mr. John</div><div class="text-xs text-gray-500">R101</div></div></td>
+                        <td class="px-4 py-3"><div class="p-2 rounded bg-english border-l-4 border-english"><div class="font-medium">Story Time</div><div class="text-xs">Ms. Taylor</div><div class="text-xs text-gray-500">Library</div></div></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Mobile Instructions -->
+    <div class="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-md text-sm text-yellow-800 text-center md:hidden">
+        ↔️ <strong>Swipe left/right</strong> to view full timetable
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const gradeSelect = document.querySelector('select:nth-of-type(1)');
+        const sectionSelect = document.querySelector('select:nth-of-type(2)');
+        const teacherSelect = document.querySelector('select:nth-of-type(3)');
+        const subjectSelect = document.querySelector('select:nth-of-type(4)');
+        
+        // Function to filter timetable based on selections
+        function filterTimetable() {
+            const grade = gradeSelect.value;
+            const section = sectionSelect.value;
+            const teacher = teacherSelect.value;
+            const subject = subjectSelect.value;
+            
+            // In a real implementation, you would make an AJAX request here
+            // to fetch filtered data from the server
+            console.log(`Filtering by: Grade=${grade}, Section=${section}, Teacher=${teacher}, Subject=${subject}`);
+            
+            // For demo purposes, we'll just show an alert
+            alert(`Filter applied:\nGrade: ${grade || 'All'}\nSection: ${section || 'All'}\nTeacher: ${teacher || 'All'}\nSubject: ${subject || 'All'}`);
+        }
+        
+        // Add event listeners to all filter dropdowns
+        [gradeSelect, sectionSelect, teacherSelect, subjectSelect].forEach(select => {
+            select.addEventListener('change', filterTimetable);
+        });
+    });
+</script>
+
+</body>
+</html>

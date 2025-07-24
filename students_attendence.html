@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Attendance Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom styles */
+        .attendance-status {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+            background-size: 1em;
+        }
+        
+        @media (max-width: 640px) {
+            .responsive-table th, .responsive-table td {
+                padding: 0.5rem;
+                font-size: 0.875rem;
+            }
+            
+            .responsive-table th:nth-child(4),
+            .responsive-table td:nth-child(4),
+            .responsive-table th:nth-child(5),
+            .responsive-table td:nth-child(5) {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header Section -->
+        <header class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <h1 class="text-2xl font-bold text-indigo-700 flex items-center">
+                        <i class="fas fa-clipboard-list mr-2"></i> Student Attendance
+                    </h1>
+                    <div class="flex items-center mt-2 text-gray-600">
+                        <i class="far fa-calendar-alt mr-2"></i>
+                        <span id="current-date" class="font-medium">24 July 2025</span>
+                        <span id="current-day" class="ml-4 font-medium">Thursday</span>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <div class="flex-1">
+                        <label for="grade" class="block text-sm font-medium text-gray-700 mb-1">Grade</label>
+                        <select id="grade" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 py-2 px-3 border">
+                            <option value="">Select Grade</option>
+                            <option value="1">Grade 1</option>
+                            <option value="2">Grade 2</option>
+                            <option value="3">Grade 3</option>
+                            <option value="4">Grade 4</option>
+                            <option value="5">Grade 5</option>
+                            <option value="6">Grade 6</option>
+                            <option value="7">Grade 7</option>
+                            <option value="8">Grade 8</option>
+                            <option value="9">Grade 9</option>
+                            <option value="10">Grade 10</option>
+                            <option value="11">Grade 11</option>
+                            <option value="12">Grade 12</option>
+                        </select>
+                    </div>
+                    
+                    <div class="flex-1">
+                        <label for="section" class="block text-sm font-medium text-gray-700 mb-1">Section</label>
+                        <select id="section" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 py-2 px-3 border">
+                            <option value="">Select Section</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                            <option value="G">G</option>
+                            <option value="H">H</option>
+                            <option value="I">I</option>
+                            <option value="J">J</option>
+                        </select>
+                    </div>
+                    
+                    <div class="flex items-end">
+                        <button id="load-students" class="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md flex items-center transition-colors">
+                            <i class="fas fa-sync-alt mr-2"></i> Load Students
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Student List Table -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200 responsive-table">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <input type="checkbox" class="rounded text-indigo-600 focus:ring-indigo-500">
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Roll No
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Full Name
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Gender
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Status
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Remark
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200" id="student-list">
+                        <!-- Sample data - will be populated by JavaScript -->
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <input type="checkbox" class="rounded text-indigo-600 focus:ring-indigo-500" checked>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                001
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                Akash R
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                Male
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <select class="attendance-status block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 py-1 px-2 border text-sm">
+                                    <option value="present" selected>✅ Present</option>
+                                    <option value="absent">❌ Absent</option>
+                                    <option value="late">🕒 Late</option>
+                                    <option value="leave">💼 Leave</option>
+                                </select>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <input type="text" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 py-1 px-2 border text-sm" placeholder="-">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <input type="checkbox" class="rounded text-indigo-600 focus:ring-indigo-500">
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                002
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                Banu L
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                Female
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <select class="attendance-status block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 py-1 px-2 border text-sm">
+                                    <option value="present">✅ Present</option>
+                                    <option value="absent" selected>❌ Absent</option>
+                                    <option value="late">🕒 Late</option>
+                                    <option value="leave">💼 Leave</option>
+                                </select>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <input type="text" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 py-1 px-2 border text-sm" placeholder="Sick Leave" value="Sick Leave">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <input type="checkbox" class="rounded text-indigo-600 focus:ring-indigo-500" checked>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                003
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                Charles D
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                Male
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <select class="attendance-status block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 py-1 px-2 border text-sm">
+                                    <option value="present" selected>✅ Present</option>
+                                    <option value="absent">❌ Absent</option>
+                                    <option value="late">🕒 Late</option>
+                                    <option value="leave">💼 Leave</option>
+                                </select>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <input type="text" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 py-1 px-2 border text-sm" placeholder="-">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row justify-end gap-4">
+            <button id="reset-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-6 rounded-md flex items-center justify-center transition-colors">
+                <i class="fas fa-sync-alt mr-2"></i> Reset
+            </button>
+            <button id="export-pdf" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-md flex items-center justify-center transition-colors">
+                <i class="fas fa-file-pdf mr-2"></i> Export PDF
+            </button>
+            <button id="download-report" class="bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded-md flex items-center justify-center transition-colors">
+                <i class="fas fa-file-excel mr-2"></i> Download Report
+            </button>
+            <button id="submit-attendance" class="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-6 rounded-md flex items-center justify-center transition-colors">
+                <i class="fas fa-save mr-2"></i> Submit Attendance
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Set current date and day
+        const today = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('current-date').textContent = today.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        document.getElementById('current-day').textContent = today.toLocaleDateString('en-US', { weekday: 'long' });
+
+        // Load Students Button Functionality
+        document.getElementById('load-students').addEventListener('click', function() {
+            const grade = document.getElementById('grade').value;
+            const section = document.getElementById('section').value;
+            
+            if (!grade || !section) {
+                alert('Please select both Grade and Section');
+                return;
+            }
+            
+            // In a real app, you would fetch data from an API here
+            // For demo, we'll just show an alert
+            alert(`Loading students for Grade ${grade} Section ${section}`);
+            
+            // You would typically update the student-list table with fetched data
+        });
+
+        // Reset Button Functionality
+        document.getElementById('reset-btn').addEventListener('click', function() {
+            const checkboxes = document.querySelectorAll('#student-list input[type="checkbox"]');
+            const statusDropdowns = document.querySelectorAll('#student-list .attendance-status');
+            const remarkInputs = document.querySelectorAll('#student-list input[type="text"]');
+            
+            checkboxes.forEach(checkbox => checkbox.checked = false);
+            statusDropdowns.forEach(dropdown => dropdown.value = 'present');
+            remarkInputs.forEach(input => input.value = '');
+            
+            alert('Form has been reset');
+        });
+
+        // Submit Attendance Button Functionality
+        document.getElementById('submit-attendance').addEventListener('click', function() {
+            // In a real app, you would collect all the data and send to server
+            const rows = document.querySelectorAll('#student-list tr');
+            const attendanceData = [];
+            
+            rows.forEach(row => {
+                const rollNo = row.cells[1].textContent;
+                const name = row.cells[2].textContent;
+                const isChecked = row.querySelector('input[type="checkbox"]').checked;
+                const status = row.querySelector('.attendance-status').value;
+                const remark = row.querySelector('input[type="text"]').value;
+                
+                attendanceData.push({
+                    rollNo,
+                    name,
+                    isChecked,
+                    status,
+                    remark
+                });
+            });
+            
+            console.log('Attendance Data:', attendanceData);
+            alert('Attendance submitted successfully!');
+        });
+
+        // Export PDF Button Functionality
+        document.getElementById('export-pdf').addEventListener('click', function() {
+            alert('Exporting to PDF... This would generate a PDF report in a real application.');
+        });
+
+        // Download Report Button Functionality
+        document.getElementById('download-report').addEventListener('click', function() {
+            alert('Downloading report... This would generate an Excel/CSV report in a real application.');
+        });
+
+        // Select All Checkbox Functionality
+        document.querySelector('thead input[type="checkbox"]').addEventListener('change', function(e) {
+            const checkboxes = document.querySelectorAll('#student-list input[type="checkbox"]');
+            checkboxes.forEach(checkbox => checkbox.checked = e.target.checked);
+        });
+    </script>
+</body>
+</html>
